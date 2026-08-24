@@ -1,0 +1,19 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Resultados gerados em execucao (o formato esta documentado no README)
+outputs/*.csv
+outputs/*.json
+
+# Editores / SO
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

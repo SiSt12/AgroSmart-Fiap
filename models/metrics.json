@@ -1,0 +1,67 @@
+{
+  "versao_app": "1.0.0",
+  "treinado_em": "2026-08-23T21:01:26-03:00",
+  "total_imagens": 60,
+  "imagens_por_classe": {
+    "saudavel": 30,
+    "doente": 30
+  },
+  "acuracia_holdout": 0.9167,
+  "imagens_teste": 12,
+  "cross_val_folds": 5,
+  "cross_val_media": 0.9833,
+  "cross_val_desvio": 0.0333,
+  "cross_val_scores": [
+    1.0,
+    0.9167,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "matriz_confusao": {
+    "classes": [
+      "saudavel",
+      "doente"
+    ],
+    "valores": [
+      [
+        5,
+        1
+      ],
+      [
+        0,
+        6
+      ]
+    ]
+  },
+  "relatorio": {
+    "saudavel": {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1-score": 0.9090909090909091,
+      "support": 6.0
+    },
+    "doente": {
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "f1-score": 0.9230769230769231,
+      "support": 6.0
+    },
+    "accuracy": 0.9166666666666666,
+    "macro avg": {
+      "precision": 0.9285714285714286,
+      "recall": 0.9166666666666667,
+      "f1-score": 0.916083916083916,
+      "support": 12.0
+    },
+    "weighted avg": {
+      "precision": 0.9285714285714285,
+      "recall": 0.9166666666666666,
+      "f1-score": 0.9160839160839161,
+      "support": 12.0
+    }
+  },
+  "dataset": "C:\\Users\\Silvaldo\\Documents\\AgroSmart-Fiap\\data\\train",
+  "arquivo_modelo": "C:\\Users\\Silvaldo\\Documents\\AgroSmart-Fiap\\models\\agrosmart_svm.joblib",
+  "exemplos": 60
+}
