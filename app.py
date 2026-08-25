@@ -127,7 +127,7 @@ def aba_classificar(modelo, metricas: dict | None) -> None:
         categoria = resultado["categoria"]
         with colunas[i % 3]:
             st.image(cv2.cvtColor(img, cv2.COLOR_BGR2RGB),
-                     caption=arquivo.name, use_container_width=True)
+                     caption=arquivo.name, use_column_width=True)
             st.markdown(
                 f"<h4 style='color:{CORES[categoria]};margin:0'>"
                 f"{CLASS_LABELS[categoria]}</h4>",

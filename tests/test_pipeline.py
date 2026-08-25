@@ -289,6 +289,23 @@ def test_app_streamlit_abre_sem_excecao():
     # O uploader da aba de classificacao precisa existir para o fluxo funcionar.
     assert len(app.get("file_uploader")) >= 1
 
+def test_app_classifica_upload_sem_excecao(monkeypatch):
+    """Regressao: renderizar uma imagem enviada deve funcionar no Streamlit fixado."""
+    from types import SimpleNamespace
+
+    import app as app_module
+
+    amostra = RAIZ / "data" / "samples" / "amostra_saudavel_000.jpg"
+    arquivo = SimpleNamespace(name=amostra.name, getvalue=amostra.read_bytes)
+
+    monkeypatch.setattr(
+        app_module.st,
+        "file_uploader",
+        lambda *args, **kwargs: [arquivo],
+    )
+
+    app_module.aba_classificar(load_model(), load_metrics())
+
 
 def test_app_streamlit_tem_botao_de_treino():
     from streamlit.testing.v1 import AppTest
