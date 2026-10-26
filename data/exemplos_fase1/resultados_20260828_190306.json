@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "aplicacao": "AgroSmart-Fiap",
+    "versao": "1.0.0",
+    "gerado_em": "2026-08-28T19:03:06-03:00",
+    "total_imagens": 6,
+    "resumo_por_categoria": {
+      "doente": 3,
+      "saudavel": 3
+    },
+    "modelo": "StandardScaler + SVC(rbf) sobre atributos HSV/textura",
+    "acuracia_validacao": 0.9167
+  },
+  "resultados": [
+    {
+      "imagem": "amostra_doente_000.jpg",
+      "categoria": "doente",
+      "acuracia": 0.9936,
+      "conf_saudavel": 0.0064,
+      "conf_doente": 0.9936,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    },
+    {
+      "imagem": "amostra_doente_001.jpg",
+      "categoria": "doente",
+      "acuracia": 0.9702,
+      "conf_saudavel": 0.0298,
+      "conf_doente": 0.9702,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    },
+    {
+      "imagem": "amostra_doente_002.jpg",
+      "categoria": "doente",
+      "acuracia": 0.9961,
+      "conf_saudavel": 0.0039,
+      "conf_doente": 0.9961,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    },
+    {
+      "imagem": "amostra_saudavel_000.jpg",
+      "categoria": "saudavel",
+      "acuracia": 0.9695,
+      "conf_saudavel": 0.9695,
+      "conf_doente": 0.0305,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    },
+    {
+      "imagem": "amostra_saudavel_001.jpg",
+      "categoria": "saudavel",
+      "acuracia": 0.9695,
+      "conf_saudavel": 0.9695,
+      "conf_doente": 0.0305,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    },
+    {
+      "imagem": "amostra_saudavel_002.jpg",
+      "categoria": "saudavel",
+      "acuracia": 0.9695,
+      "conf_saudavel": 0.9695,
+      "conf_doente": 0.0305,
+      "data_hora": "2026-08-28T19:03:06-03:00"
+    }
+  ]
+}

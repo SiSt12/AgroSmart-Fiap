@@ -1,0 +1,7 @@
+﻿imagem,categoria,acuracia,conf_saudavel,conf_doente,data_hora
+amostra_doente_000.jpg,doente,0.9936,0.0064,0.9936,2026-08-28T19:03:06-03:00
+amostra_doente_001.jpg,doente,0.9702,0.0298,0.9702,2026-08-28T19:03:06-03:00
+amostra_doente_002.jpg,doente,0.9961,0.0039,0.9961,2026-08-28T19:03:06-03:00
+amostra_saudavel_000.jpg,saudavel,0.9695,0.9695,0.0305,2026-08-28T19:03:06-03:00
+amostra_saudavel_001.jpg,saudavel,0.9695,0.9695,0.0305,2026-08-28T19:03:06-03:00
+amostra_saudavel_002.jpg,saudavel,0.9695,0.9695,0.0305,2026-08-28T19:03:06-03:00

@@ -1,8 +1,11 @@
 """AgroSmart - interface web (Streamlit).
 
-Duas abas principais:
+Cinco abas:
+  * Dashboard - indicadores, filtros e graficos das analises;
+  * Atualizar dados - importacao validada e historico persistente;
   * Classificar - upload de imagens, resultado por imagem e download CSV/JSON;
-  * Treinamento - gerencia o banco de fotos e treina o modelo pelo navegador.
+  * Treinamento - gerencia o banco de fotos e treina o modelo pelo navegador;
+  * Sobre - contexto e limites do projeto.
 
 Execucao:  streamlit run app.py
 """
@@ -31,6 +34,8 @@ from agrosmart.model import (
     train,
 )
 from agrosmart.synthetic import generate_dataset
+from agrosmart.dashboard import import_panel, render_dashboard
+from agrosmart.sprint3_ui import render_actions
 
 RAIZ = Path(__file__).resolve().parent
 CORES = {"saudavel": "#1e8e3e", "doente": "#c5221f"}
@@ -72,10 +77,12 @@ def decodifica_upload(arquivo) -> np.ndarray:
 def barra_lateral(metricas: dict | None) -> None:
     with st.sidebar:
         st.header("🌿 AgroSmart")
-        st.caption(f"FIAP - Fase 4 - Visao Computacional · v{__version__}")
+        st.caption("FIAP · 4ESOR · Sprint 3")
+        st.caption("Regras de decisão e automação de dados")
         st.divider()
 
-        st.subheader("Modelo")
+        st.subheader("Classificador da Fase 1")
+        st.caption(f"v{__version__} · métricas de validação em imagens simuladas")
         if metricas is None:
             st.warning("Nenhum modelo treinado ainda. Use a aba **Treinamento**.")
         else:
@@ -98,7 +105,8 @@ def barra_lateral(metricas: dict | None) -> None:
 
 def aba_classificar(modelo, metricas: dict | None) -> None:
     st.subheader("Classificacao de imagens")
-    st.write("Envie fotos de folhas para identificar sinais de praga ou doenca.")
+    st.write("Envie fotos para triagem entre saudável e doente. O modelo não identifica a doença específica.")
+    st.caption("Para alimentar o dashboard, baixe os resultados e importe o arquivo na aba Atualizar dados.")
 
     if modelo is None:
         st.error("Treine o modelo na aba **Treinamento** antes de classificar.")
@@ -141,7 +149,8 @@ def aba_classificar(modelo, metricas: dict | None) -> None:
 
     st.divider()
     st.subheader("Resultados")
-    st.dataframe(pd.DataFrame(linhas), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(linhas).rename(columns={"acuracia": "confianca"}), use_container_width=True, hide_index=True)
+    st.caption("Nas exportações legadas, a coluna acuracia representa a confiança da previsão.")
 
     carimbo = datetime.now().strftime("%Y%m%d_%H%M%S")
     esquerda, direita = st.columns(2)
@@ -248,6 +257,31 @@ def aba_treinamento() -> None:
 
 
 def aba_sobre() -> None:
+    st.subheader("Sprint 3: inteligência no campo")
+    st.markdown("""
+Novos arquivos CSV/JSON alimentam regras de decisão por talhão.
+O monitor registra os dados no SQLite e gera alertas e relatórios simulados.
+São necessárias pelo menos 10 análises acumuladas no talhão.
+
+- **R1:** mais de 30% de análises doentes gera um alerta.
+- **R2:** mais de 50% doentes ou confiança média das novas análises abaixo de 65%
+  gera um relatório de revisão prioritária.
+- **Repetições:** registros já recebidos não disparam novas ações.
+""")
+    st.subheader("Base das fases anteriores")
+    st.markdown("""
+Os resultados CSV/JSON da Fase 1 são importados, validados e incorporados ao histórico.
+O painel calcula indicadores por data, talhão e categoria sobre os registros selecionados.
+
+- **Demonstração:** registros tabulares fictícios para exercitar análises por período e local.
+- **Histórico:** dados importados, preservados após fechar o aplicativo.
+- **Atualização:** cargas repetidas são reconhecidas; IDs com conteúdo conflitante exigem revisão.
+- **Confiança:** valor associado à previsão. Acurácia de validação é uma medida separada, exibida na barra lateral.
+
+Os resultados apoiam a escolha de áreas para inspeção. A amostra de imagens não comprova a
+condição de toda a plantação. Cada registro identifica se a origem é simulada, não informada
+ou real conforme declaração do responsável.
+""")
     st.subheader("Como funciona")
     st.markdown(
         """
@@ -258,10 +292,18 @@ def aba_sobre() -> None:
 2. **Extracao de atributos** - histogramas HSV, proporcao de pixels verdes,
    amarelados e marrons, estatisticas de cor e medidas de textura
    (variancia do Laplaciano, Sobel, densidade de bordas).
-3. **Classificacao (scikit-learn)** - `StandardScaler` + `SVC(kernel="rbf")`
-   com `predict_proba`, que fornece a confianca exportada como acuracia.
-4. **Exportacao** - CSV e JSON com nome da imagem, categoria, acuracia,
-   confianca por classe e data/hora.
+3. **Classificação (scikit-learn)** - `StandardScaler` + `SVC(kernel="rbf")`
+   com `predict_proba`, que fornece as probabilidades estimadas por classe.
+   A confiança da previsão corresponde à probabilidade da classe escolhida.
+4. **Exportação** - CSV e JSON com nome da imagem, categoria, confiança,
+   probabilidades por classe e data/hora. No histórico, cada registro também
+   contém identificação da análise, talhão e origem dos dados.
+
+**Compatibilidade com a Fase 1:** arquivos antigos podem utilizar o campo
+`acuracia` para representar a confiança de uma previsão individual.
+A importação aceita esse campo legado. Nas exportações atuais, usamos
+`confianca`. Esse valor não representa a acurácia de validação do modelo,
+que é uma medida separada apresentada na barra lateral.
 
 **Por que atributos e nao uma CNN?** Com dezenas de imagens, uma rede profunda
 sofre overfitting; os atributos de cor/textura sao estaveis nesse volume e cada
@@ -276,11 +318,16 @@ def main() -> None:
     metricas = load_metrics()
     barra_lateral(metricas)
 
-    st.title("AgroSmart - Triagem de folhas por visao computacional")
-    st.caption("Classifica folhas em **saudavel** ou **doente** e exporta os "
-               "resultados em CSV/JSON.")
+    st.title("AgroSmart")
+    st.caption("SPRINT 3 · INTELIGÊNCIA E AUTOMAÇÃO NO CAMPO")
 
-    aba1, aba2, aba3 = st.tabs(["🔍 Classificar", "🎓 Treinamento", "ℹ️ Sobre"])
+    dashboard, imports, aba1, aba2, aba3 = st.tabs(["📊 Dashboard", "📥 Atualizar dados", "🔍 Classificar", "🎓 Treinamento", "ℹ️ Sobre"])
+    with dashboard:
+        render_actions()
+        st.divider()
+        render_dashboard()
+    with imports:
+        import_panel()
     with aba1:
         aba_classificar(modelo_atual(), metricas)
     with aba2:

@@ -1,0 +1,12 @@
+{
+  "data": "2026-10-26",
+  "sqlite_integrity": "ok",
+  "registros": 370,
+  "lotes": 4,
+  "lotes_pendentes": 0,
+  "acoes": 4,
+  "acoes_pendentes": 0,
+  "testes_aprovados": 84,
+  "avisos": 51,
+  "ambiente_revisao": "Linux Python 3.12.14"
+}

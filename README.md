@@ -1,157 +1,123 @@
-# 🌿 AgroSmart-Fiap
+# AgroSmart Sprint 3
 
-Protótipo de **visão computacional** que classifica folhas em **saudável** ou **doente**
-e exporta os resultados em **CSV** e **JSON**.
+FIAP · Engenharia de Software · turma 4ESOR · Inteligência no campo
 
-> FIAP — Fase 4 — *Visão Computacional aplicada ao ambiente rural*.
-> Manual de uso passo a passo: **[MANUAL.md](MANUAL.md)**.
+O AgroSmart recebe arquivos CSV/JSON, incorpora apenas análises novas ao histórico e aplica regras por talhão. O monitor grava o checkpoint em SQLite, publica alertas e relatórios simulados e o Streamlit apresenta os resultados. O classificador e o painel das fases anteriores continuam disponíveis.
 
----
+## Estado incluído neste pacote
 
-## O que o projeto entrega
+O projeto já contém uma demonstração executada: **370 análises (261 saudáveis e 109 doentes), 2 alertas e 2 relatórios**, todos publicados. Há quatro ações em JSON e dois relatórios adicionais em TXT. O banco e o CSV correspondem ao mesmo estado.
 
-| Requisito da atividade | Onde está |
+Os exemplos de entrada já foram processados. Reenviá-los mantém 370 registros e não gera novas ações. A base fixa “Demonstração simulada” tem 360 registros; para ver o estado atual, use **Histórico importado**. A avaliação das regras usa o acumulado por talhão e não depende dos filtros do painel.
+
+## Instalar no Windows
+
+Use Python **3.12**, versão principal validada nesta revisão. Abra o PowerShell na pasta que contém `app.py`. A pasta pode ser renomeada; os caminhos operacionais são relativos à raiz do projeto.
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+A instalação precisa de internet. Depois, a demonstração usa somente arquivos locais. O ambiente virtual foi excluído do ZIP para ser recriado no computador de destino. SQLite já acompanha o Python.
+
+## Iniciar os dois programas
+
+No primeiro terminal, inicie o monitor e deixe-o executando:
+
+```powershell
+.\.venv\Scripts\python.exe -m agrosmart.ingestion
+```
+
+No segundo terminal, na mesma pasta do projeto:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Abra o endereço **Local URL** informado pelo Streamlit. Normalmente é `http://localhost:8501`; se estiver ocupado, pode ser `8502` ou outra porta. Para encerrar, pressione Ctrl+C em cada terminal. O monitor precisa estar ativo durante a chegada de arquivos; o painel sozinho não processa a fila da Sprint 3.
+
+Linux/macOS: crie o ambiente com `python3.12 -m venv .venv`, instale com `.venv/bin/python -m pip install -r requirements.txt` e use `.venv/bin/python` nos dois comandos acima.
+
+## Enviar dados
+
+1. Abra **Atualizar dados**, selecione um CSV/JSON e confira a prévia.
+2. Clique em **Enviar para entrada automática**. A interface valida e grava uma cópia `upload_<hash>.csv` ou `.json` na entrada; esse nome interno preserva a rastreabilidade por conteúdo do arquivo.
+3. O monitor procura arquivos a cada 2 segundos, espera tamanho e data de modificação estáveis entre verificações e processa o lote automaticamente.
+4. No Dashboard, clique em **Atualizar painel**. Esse botão atualiza a visualização; não executa as regras.
+
+Também é possível copiar arquivos para `data/sprint3/entrada/`. Para evitar leitura durante uma cópia incompleta, copie primeiro com extensão `.tmp` e renomeie para `.csv` ou `.json` ao terminar. Os arquivos `.tmp` são ignorados pelo monitor.
+
+Um arquivo com qualquer registro inválido é rejeitado inteiro na Sprint 3. Um ID já existente com conteúdo conflitante também rejeita a transação do lote. Corrija e envie novamente; não edite diretamente o CSV do histórico.
+
+## Regras
+
+As regras são avaliadas somente para talhões com novos registros válidos, após a incorporação do lote. Ambas exigem pelo menos 10 análises acumuladas.
+
+- **R1:** proporção acumulada de doentes **maior que 30%** → alerta de inspeção em JSON.
+- **R2:** proporção acumulada de doentes **maior que 50% OU** confiança média das análises novas **menor que 65%** → relatório de revisão prioritária em JSON e TXT.
+- **Repetições:** o mesmo evento não é incorporado novamente, mesmo vindo em outro arquivo; sem registros novos, não há nova ação.
+
+30%, 50% e 65% exatos não ultrapassam os respectivos limites. Um talhão pode gerar R1 e R2 no mesmo lote. Outros dados genuinamente novos podem gerar novas ações no mesmo talhão; a proteção não bloqueia alertas para sempre.
+
+Os limites são escolhas acadêmicas do protótipo, sem validação agronômica. “Doente” é a classe binária de triagem; não identifica espécie de praga ou doença específica. Confiança individual não é a acurácia de validação do modelo.
+
+## Arquivos e persistência
+
+| Caminho | Função |
 |---|---|
-| 1.1 Protótipo funcional de reconhecimento de imagens | `agrosmart/features.py` + `agrosmart/model.py` (OpenCV + scikit-learn) |
-| Reconhecimento via upload / banco de imagens | `app.py` (Streamlit) e `agrosmart/cli.py` (lote) |
-| 1.2 Exportação em `.csv` / `.json` com nome, categoria e acurácia | `agrosmart/export.py` |
+| `agrosmart/rules.py` | Regras puras, sem leitura ou escrita |
+| `agrosmart/ingestion.py` | Monitor, validação incremental e checkpoint |
+| `agrosmart/actions.py` | Avaliação dos lotes e publicação de ações |
+| `agrosmart/sprint3_ui.py` | Fila de entrada, consulta e download das ações |
+| `data/sprint3/entrada/` | Arquivos recebidos pelo monitor |
+| `data/sprint3/historico/estado.sqlite3` | Registros, lotes, ações e controle persistente |
+| `data/sprint3/historico/historico.csv` | Materialização do histórico para o painel |
+| `outputs/sprint3/alertas/` | Alertas R1 em JSON |
+| `outputs/sprint3/relatorios/` | Relatórios R2 em JSON e TXT |
+| `data/demo/` | Base fixa de 360 e lotes de exemplo |
+| `data/exemplos_fase1/` | CSV/JSON legados da primeira fase |
+| `data/history/` | Histórico legado da Sprint 2, separado do estado atual |
 
-## Como funciona
+O banco SQLite é a referência persistente da Sprint 3. O monitor mantém o CSV sincronizado e detecta edições externas conflitantes. Não substitua somente o CSV pela base de 360 mantendo o banco com 370. Para backup, encerre os dois programas e copie em conjunto `data/sprint3/` e `outputs/sprint3/`.
 
-```
-imagem  ->  pré-processamento  ->  segmentação  ->  atributos  ->  SVM  ->  categoria
- (BGR)      resize 256x256          da folha       cor+textura            + confiança
-            blur gaussiano        (Otsu + maior     31 valores
-                                 componente central)
-```
+Para um ensaio limpo no futuro, use uma segunda cópia isolada do projeto e um estado coerente de banco, CSV, entrada e saídas. Este pacote conserva a demonstração executada; não inclui comando de reset destrutivo. Os testes já exercitam cenários limpos em pastas temporárias.
 
-1. **Pré-processamento (OpenCV)** — redimensiona para 256×256 e suaviza o ruído de captura.
-2. **Segmentação da folha** — limiar de Otsu na saturação + limpeza morfológica; entre os
-   componentes conexos vence o de maior área ponderada pela proximidade ao centro. Isso
-   descarta o fundo (solo, bancada), que antes diluía as proporções de cor.
-3. **Extração de atributos** — 31 valores: histogramas HSV grossos (8/4/4 bins), fração de
-   pixels verdes, amarelados e marrons, razões entre elas, média/desvio de H, S e V e três
-   medidas de textura (variância do Laplaciano, magnitude Sobel média, densidade de bordas Canny).
-4. **Classificação (scikit-learn)** — `StandardScaler` + `SVC(kernel="rbf", C=10)` com
-   `predict_proba`; a probabilidade da classe vencedora é a **acurácia por imagem** exportada.
-5. **Exportação** — CSV e JSON com nome do arquivo, categoria, acurácia, confiança por classe
-   e data/hora.
+A variável `AGROSMART_HISTORY_DIR` afeta a seleção do histórico na interface e em funções legadas. Ela **não redireciona o monitor padrão**. No uso normal deixe-a ausente e abra os dois programas na mesma cópia do projeto. Ao detectar o SQLite padrão, a interface seleciona o histórico da Sprint 3.
 
-**Por que atributos e não uma CNN?** Com dezenas de imagens uma rede profunda faz overfitting;
-os atributos de cor/textura são estáveis nesse volume e cada decisão é justificável
-(ex.: *"22% da área da folha em tom marrom"*), o que ajuda na defesa do trabalho.
+## Compatibilidade com a Fase 1
 
-## Métricas do modelo publicado
+O leitor aceita a coluna legada `acuracia` como confiança individual e JSON com `metadata` e `resultados`. Na Sprint 3, talhão ausente recebe “Não informado” e origem ausente recebe `nao_informada`; a prévia não solicita esses campos em formulário. Para demonstrar uma localidade e a origem simulada, inclua `talhao` e `origem_dado` no arquivo antes do primeiro envio. Não modifique a origem de um evento já recebido mantendo o mesmo ID.
 
-Treinado com 60 imagens simuladas (30 por classe), `seed=42`:
+As abas Classificar e Treinamento foram preservadas. A classificação exporta resultados que podem ser enviados pela aba Atualizar dados; essa ponte ainda depende da seleção e do envio do arquivo. A automação exigida começa quando o arquivo chega à entrada. As métricas do modelo foram obtidas com imagens simuladas.
 
-| Métrica | Valor |
-|---|---|
-| Acurácia (holdout, 12 imagens) | **91,7%** |
-| Validação cruzada (5 folds) | **98,3% ± 3,3%** |
-| Matriz de confusão (teste) | `[[5, 1], [0, 6]]` (ordem: saudável, doente) |
+## Documentação e evidências
 
-Números completos em [`models/metrics.json`](models/metrics.json).
-São imagens simuladas: a acurácia com fotos reais tende a ser menor — veja
-[MANUAL.md](MANUAL.md) para retreinar com o seu próprio banco de fotos.
-
-## Instalação
-
-```bash
-git clone https://github.com/<seu-usuario>/AgroSmart-Fiap.git
-cd AgroSmart-Fiap
-
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-# source .venv/bin/activate     # Linux/macOS
-
-pip install -r requirements.txt
-```
-
-## Uso rápido
-
-```bash
-streamlit run app.py                                   # interface web (recomendado)
-
-python -m agrosmart.cli gerar-dados                    # cria o dataset simulado
-python -m agrosmart.cli treinar                        # treina e salva o modelo
-python -m agrosmart.cli classificar --input data/samples --out outputs
-```
-
-O app tem três abas: **Classificar** (upload + download CSV/JSON),
-**Treinamento** (enviar fotos ao banco e treinar pelo navegador) e **Sobre**.
-
-## Formato da exportação
-
-`resultados_AAAAMMDD_HHMMSS.csv`
-
-```csv
-imagem,categoria,acuracia,conf_saudavel,conf_doente,data_hora
-amostra_doente_000.jpg,doente,0.9963,0.0037,0.9963,2026-08-23T20:58:40-03:00
-amostra_saudavel_000.jpg,saudavel,0.9847,0.9847,0.0153,2026-08-23T20:58:40-03:00
-```
-
-`resultados_AAAAMMDD_HHMMSS.json`
-
-```json
-{
-  "metadata": {
-    "aplicacao": "AgroSmart-Fiap",
-    "versao": "1.0.0",
-    "gerado_em": "2026-08-23T20:58:40-03:00",
-    "total_imagens": 6,
-    "resumo_por_categoria": { "doente": 3, "saudavel": 3 },
-    "modelo": "StandardScaler + SVC(rbf) sobre atributos HSV/textura",
-    "acuracia_validacao": 0.9167
-  },
-  "resultados": [
-    {
-      "imagem": "amostra_doente_000.jpg",
-      "categoria": "doente",
-      "acuracia": 0.9963,
-      "conf_saudavel": 0.0037,
-      "conf_doente": 0.9963,
-      "data_hora": "2026-08-23T20:58:40-03:00"
-    }
-  ]
-}
-```
-
-## Estrutura
-
-```
-AgroSmart-Fiap/
-├── app.py                  # interface Streamlit (classificar / treinar / sobre)
-├── agrosmart/
-│   ├── features.py         # pré-processamento, segmentação e atributos (OpenCV)
-│   ├── dataset.py          # leitura de data/train/<classe>/
-│   ├── model.py            # pipeline, treino, métricas e predição
-│   ├── export.py           # geração do CSV e do JSON
-│   ├── synthetic.py        # gerador de imagens simuladas
-│   └── cli.py              # gerar-dados | treinar | classificar
-├── data/train/{saudavel,doente}/   # banco de fotos usado no treino
-├── data/samples/           # imagens avulsas para teste rápido
-├── models/                 # modelo treinado + métricas
-├── outputs/                # CSV/JSON gerados pela CLI
-└── tests/test_pipeline.py  # 21 testes (atributos, treino, export, CLI e app)
-```
+- `docs/AgroSmart_Sprint3_Documentacao.pdf`: documento principal para leitura e avaliação.
+- `docs/AgroSmart_Sprint3_Documentacao.docx`: versão editável equivalente.
+- `docs/DICIONARIO_DADOS.md`: campos, unidades e critérios de validação.
+- `docs/REGRAS_SPRINT3.md`: regras, condições e tabela de decisão.
+- `docs/FLUXO_SPRINT3.md` e `docs/fluxo_sprint3.png`: fluxo e justificativa do microbatch.
+- `docs/evidencias_sprint3/INDICE.md`: índice das capturas originais.
+- `docs/VERIFICACAO.md`: testes, verificações e limitações.
+- `docs/ALTERACOES_SPRINT3.md`: mudanças desta revisão.
+- `docs/historico_sprint2/`: documentos antigos, sem uso como instrução atual.
 
 ## Testes
 
-```bash
-python -m pytest tests/ -q      # 21 passed
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/ -q
 ```
 
-Cobrem extração de atributos, treino/validação, predição, formato do CSV/JSON,
-fluxo completo da CLI e a abertura do app Streamlit em modo headless.
+Revisão de 26/10/2026: **84 aprovados e 51 avisos** no Windows informado pelo grupo e na cópia revisada em Linux com Python 3.12.14. Os avisos vêm da interoperabilidade Altair/Narwhals. São conhecidos, não foram ocultados e não impediram os testes. Dependências diretas fixadas em `requirements.txt`; dependências transitivas podem variar.
 
-## Limitações
+## Integrantes
 
-- O modelo publicado foi treinado em **imagens simuladas**; para uso real, retreine com fotos.
-- Assume que a folha é o objeto **dominante e centralizado** da foto.
-- Classificação **binária** (saudável × doente), sem identificar a praga específica.
-- Iluminação muito colorida (estufa com luz roxa/amarela) desloca o matiz e prejudica a leitura.
+| Nome | RM |
+|---|---|
+| André Luiz Viana Ribeiro | 553702 |
+| Gustavo Henrique de Jesus | 553554 |
+| Silvaldo Stolarz de Lima | 552727 |
+| Vinicius Eugênio da Silva | 098064 |
+| Enzo Teles de Moura | 553899 |
 
-## Licença
-
-MIT — uso livre para fins acadêmicos.

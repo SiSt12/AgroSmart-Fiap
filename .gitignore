@@ -17,3 +17,6 @@ outputs/*.json
 .idea/
 Thumbs.db
 desktop.ini
+
+# Histórico local e fontes importadas; exemplos públicos ficam em data/demo.
+data/history/

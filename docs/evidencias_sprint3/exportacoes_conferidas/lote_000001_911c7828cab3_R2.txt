@@ -1,0 +1,17 @@
+AGROSMART - RELATORIO SIMULADO - SPRINT 3
+
+ID: lote_000001_911c7828cab3_R2
+Gerado em UTC: 2026-10-26T18:52:49+00:00
+Arquivo de origem: lote_novo.csv
+Talhao: Talhão C
+Analises acumuladas: 92
+Classificadas doentes: 53
+Percentual doente: 57.61%
+Confianca media das novas: 90.00%
+
+Motivos:
+- Mais de 50% das analises classificadas doentes.
+
+Recomendacao: Priorizar a inspecao do talhao e registrar as observacoes.
+
+Acao simulada para demonstracao academica.
