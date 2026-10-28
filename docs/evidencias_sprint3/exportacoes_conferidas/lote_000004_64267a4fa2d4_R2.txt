@@ -1,0 +1,17 @@
+AGROSMART - RELATORIO SIMULADO - SPRINT 3
+
+ID: lote_000004_64267a4fa2d4_R2
+Gerado em UTC: 2026-10-26T20:31:43+00:00
+Arquivo de origem: upload_7096924bab23e56119a1151d621de5128706e0565bbfffffeab4ced62b1cd7a1.csv
+Talhao: Talhão A
+Analises acumuladas: 94
+Classificadas doentes: 8
+Percentual doente: 8.51%
+Confianca media das novas: 57.50%
+
+Motivos:
+- Confianca media das novas classificacoes abaixo de 65%.
+
+Recomendacao: Revisar manualmente as classificacoes antes de decidir uma intervencao.
+
+Acao simulada para demonstracao academica.

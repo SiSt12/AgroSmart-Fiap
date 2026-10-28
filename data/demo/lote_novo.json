@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "aplicacao": "AgroSmart Sprint 2",
+    "total_registros": 8,
+    "nota": "confianca não é acurácia de validação; origem_dado acompanha cada registro"
+  },
+  "resultados": [
+    {
+      "id_analise": "demo-novo-01",
+      "imagem": "simulada_nova_01.jpg",
+      "data_hora": "2026-09-23T12:10:00+00:00",
+      "categoria": "saudavel",
+      "confianca": 0.9,
+      "conf_saudavel": 0.9,
+      "conf_doente": 0.1,
+      "talhao": "Talhão A",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-02",
+      "imagem": "simulada_nova_02.jpg",
+      "data_hora": "2026-09-23T12:20:00+00:00",
+      "categoria": "saudavel",
+      "confianca": 0.9,
+      "conf_saudavel": 0.9,
+      "conf_doente": 0.1,
+      "talhao": "Talhão A",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-03",
+      "imagem": "simulada_nova_03.jpg",
+      "data_hora": "2026-09-23T12:30:00+00:00",
+      "categoria": "doente",
+      "confianca": 0.9,
+      "conf_saudavel": 0.1,
+      "conf_doente": 0.9,
+      "talhao": "Talhão B",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-04",
+      "imagem": "simulada_nova_04.jpg",
+      "data_hora": "2026-09-23T12:40:00+00:00",
+      "categoria": "saudavel",
+      "confianca": 0.9,
+      "conf_saudavel": 0.9,
+      "conf_doente": 0.1,
+      "talhao": "Talhão B",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-05",
+      "imagem": "simulada_nova_05.jpg",
+      "data_hora": "2026-09-23T12:50:00+00:00",
+      "categoria": "doente",
+      "confianca": 0.9,
+      "conf_saudavel": 0.1,
+      "conf_doente": 0.9,
+      "talhao": "Talhão C",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-06",
+      "imagem": "simulada_nova_06.jpg",
+      "data_hora": "2026-09-23T13:00:00+00:00",
+      "categoria": "doente",
+      "confianca": 0.9,
+      "conf_saudavel": 0.1,
+      "conf_doente": 0.9,
+      "talhao": "Talhão C",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-07",
+      "imagem": "simulada_nova_07.jpg",
+      "data_hora": "2026-09-23T13:10:00+00:00",
+      "categoria": "saudavel",
+      "confianca": 0.9,
+      "conf_saudavel": 0.9,
+      "conf_doente": 0.1,
+      "talhao": "Talhão D",
+      "origem_dado": "simulado"
+    },
+    {
+      "id_analise": "demo-novo-08",
+      "imagem": "simulada_nova_08.jpg",
+      "data_hora": "2026-09-23T13:20:00+00:00",
+      "categoria": "saudavel",
+      "confianca": 0.9,
+      "conf_saudavel": 0.9,
+      "conf_doente": 0.1,
+      "talhao": "Talhão D",
+      "origem_dado": "simulado"
+    }
+  ]
+}

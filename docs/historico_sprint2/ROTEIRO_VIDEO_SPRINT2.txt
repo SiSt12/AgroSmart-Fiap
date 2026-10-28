@@ -1,0 +1,53 @@
+AGROSMART — ROTEIRO DO VÍDEO DA SPRINT 2
+
+Duração pretendida: aproximadamente 3min30s. Ensaiar e ajustar ao limite de 2 a 4 minutos do enunciado. Os tempos são guias, não uma duração já verificada.
+
+PREPARAÇÃO
+
+- Usar uma cópia recém-extraída do projeto, sem histórico anterior, para reproduzir 360 -> 368. Não apagar um histórico de trabalho para ensaiar: usar outra cópia ou a opção AGROSMART_HISTORY_DIR documentada no README.
+- Abrir o app e deixar os arquivos data/demo/lote_novo.csv e data/exemplos_fase1/ disponíveis.
+- Ensaiar importação antes da gravação em uma cópia separada.
+- Mostrar as cinco abas, mas concentrar o vídeo no Dashboard e em Atualizar dados.
+- Manter todas as categorias e talhões selecionados ao mostrar os totais.
+- Identificar grupo, turma e integrantes na abertura ou nos créditos. A divisão das falas pode ser definida pelo grupo; o enunciado enviado não exige uma fala individual de cada integrante.
+- Esta é uma sugestão de fala: adaptar às palavras de quem apresenta e ao que estiver realmente aparecendo na tela.
+
+0:00–0:25 — CONTEXTO
+Tela: título do aplicativo e Dashboard completo.
+
+“Este é o AgroSmart, projeto da turma 4ESOR. Na primeira fase, desenvolvemos a classificação de imagens de folhas em saudáveis e doentes. Nesta segunda fase, organizamos os resultados em um painel interativo, com importação de dados e histórico persistente. A proposta é ajudar a identificar situações que merecem atenção e facilitar a consulta das análises.”
+
+0:25–1:00 — BASE E INDICADORES
+Tela: fonte Demonstração simulada, período completo e cartões.
+
+“Para demonstrar o funcionamento, usamos uma base simulada com 360 análises distribuídas em quatro talhões. São 254 classificadas como saudáveis e 106 como doentes: aproximadamente 70,6% e 29,4%. A confiança média é um valor associado às previsões; ela não representa a acurácia medida do modelo. Esses registros são fictícios e não representam uma coleta real em uma lavoura.”
+
+1:00–1:40 — FILTROS E DECISÃO
+Tela: comparação dos talhões; selecionar somente Talhão C; depois restaurar todos.
+
+“Os filtros de período, talhão e categoria atualizam os indicadores e os gráficos. Neste exemplo, o Talhão C tem 90 análises, das quais 51 foram classificadas como doentes, ou 56,7%. Como os quatro talhões têm a mesma quantidade de análises na base inicial, essa comparação sugere priorizar uma inspeção no Talhão C. Ela não confirma uma doença específica nem indica um tratamento automaticamente. O gráfico por dia também ajuda a acompanhar a variação dos registros disponíveis.”
+
+1:40–2:35 — ATUALIZAÇÃO DA BASE
+Tela: Atualizar dados -> Começar com o exemplo da atividade -> Adicionar demonstração ao histórico. Depois Dashboard -> Histórico importado, mostrando 360. Importar lote_novo.csv, mostrar prévia e Gravar registros válidos. Voltar ao Dashboard e mostrar 368. Reimportar o mesmo lote e mostrar 0 adicionados e 8 repetidos.
+
+“Além da demonstração fixa, o aplicativo mantém um histórico importado. Primeiro adicionamos a base inicial ao histórico. Agora enviamos um novo arquivo CSV com oito análises. O sistema valida os campos, apresenta uma prévia e grava os registros após a confirmação. O histórico passa de 360 para 368 análises. Ao importar novamente o mesmo arquivo, os registros repetidos são reconhecidos e o total permanece igual. O histórico fica salvo localmente para a próxima abertura do aplicativo.”
+
+2:35–3:10 — INTEGRAÇÃO E QUALIDADE
+Tela: prévia da importação e, em seguida, tabela ou exportação do Dashboard.
+
+“Também aceitamos o CSV e o JSON exportados pelo classificador da primeira fase. O fluxo recebe o arquivo, padroniza os dados, valida as informações e atualiza o histórico usado pelo painel. No formato antigo, a coluna chamada acurácia contém a confiança da previsão; por isso ela é tratada como confiança nesta integração. O usuário pode exportar os dados do recorte selecionado para continuar a análise.”
+
+3:10–3:30 — ENCERRAMENTO
+Tela: Dashboard completo e créditos.
+
+“Com isso, o AgroSmart reúne classificação, consulta de histórico e visualização em uma mesma aplicação. O painel ajuda a escolher onde investigar primeiro e a acompanhar os dados ao longo do tempo. Os resultados precisam ser interpretados considerando a origem dos dados e a quantidade de análises. Obrigado!”
+
+CONFERÊNCIA APÓS GRAVAR
+
+- Duração entre 2 e 4 minutos, áudio compreensível e textos legíveis.
+- Números narrados iguais aos da tela. Caso a base tenha sido alterada, atualizar a fala antes de gravar.
+- Pelo menos um filtro funcionando e uma atualização de dados demonstrada.
+- Uma interpretação prática e limites da base simulada explicados.
+- Sem chamar confiança de acurácia nem afirmar identificação de tipos de praga.
+- Vídeo disponibilizado com acesso para o professor; testar as permissões.
+- Preencher LINK_DO_VIDEO_SPRINT2.txt com o endereço definitivo antes de montar o ZIP de entrega.

@@ -1,6 +1,6 @@
 {
   "versao_app": "1.0.0",
-  "treinado_em": "2026-08-23T21:01:26-03:00",
+  "treinado_em": "2026-09-24T13:22:31-03:00",
   "total_imagens": 60,
   "imagens_por_classe": {
     "saudavel": 30,
@@ -61,7 +61,7 @@
       "support": 12.0
     }
   },
-  "dataset": "C:\\Users\\Silvaldo\\Documents\\AgroSmart-Fiap\\data\\train",
-  "arquivo_modelo": "C:\\Users\\Silvaldo\\Documents\\AgroSmart-Fiap\\models\\agrosmart_svm.joblib",
+  "dataset": "C:\\Users\\gus\\Desktop\\AgroSmart-Sprint2\\data\\train",
+  "arquivo_modelo": "C:\\Users\\gus\\Desktop\\AgroSmart-Sprint2\\models\\agrosmart_svm.joblib",
   "exemplos": 60
 }

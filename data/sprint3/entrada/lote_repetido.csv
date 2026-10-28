@@ -1,0 +1,9 @@
+﻿id_analise,imagem,data_hora,categoria,confianca,conf_saudavel,conf_doente,talhao,origem_dado
+demo-novo-01,simulada_nova_01.jpg,2026-09-23T12:10:00+00:00,saudavel,0.9,0.9,0.1,Talhão A,simulado
+demo-novo-02,simulada_nova_02.jpg,2026-09-23T12:20:00+00:00,saudavel,0.9,0.9,0.1,Talhão A,simulado
+demo-novo-03,simulada_nova_03.jpg,2026-09-23T12:30:00+00:00,doente,0.9,0.1,0.9,Talhão B,simulado
+demo-novo-04,simulada_nova_04.jpg,2026-09-23T12:40:00+00:00,saudavel,0.9,0.9,0.1,Talhão B,simulado
+demo-novo-05,simulada_nova_05.jpg,2026-09-23T12:50:00+00:00,doente,0.9,0.1,0.9,Talhão C,simulado
+demo-novo-06,simulada_nova_06.jpg,2026-09-23T13:00:00+00:00,doente,0.9,0.1,0.9,Talhão C,simulado
+demo-novo-07,simulada_nova_07.jpg,2026-09-23T13:10:00+00:00,saudavel,0.9,0.9,0.1,Talhão D,simulado
+demo-novo-08,simulada_nova_08.jpg,2026-09-23T13:20:00+00:00,saudavel,0.9,0.9,0.1,Talhão D,simulado

@@ -1,0 +1,15 @@
+Reinicio do monitor em copia isolada renomeada com espacos
+Data: 26/10/2026
+Comando: python -m agrosmart.ingestion
+
+Monitorando: <copia_isolada>/data/sprint3/entrada
+Intervalo: 2 segundos. Para encerrar: Ctrl+C.
+{"arquivo": "lote_novo.csv", "recebidos": 8, "adicionados": 0, "duplicados": 8, "total_historico": 370}
+{"arquivo": "lote_repetido.csv", "recebidos": 8, "adicionados": 0, "duplicados": 8, "total_historico": 370}
+{"arquivo": "upload_7096924bab23e56119a1151d621de5128706e0565bbfffffeab4ced62b1cd7a1.csv", "recebidos": 2, "adicionados": 0, "duplicados": 2, "total_historico": 370}
+{"arquivo": "upload_90972f85772a0fb93dc22b87fdd6c07c721883d9a6d55340d320a695e175eac7.csv", "recebidos": 8, "adicionados": 0, "duplicados": 8, "total_historico": 370}
+
+Monitor encerrado.
+
+APROVADO: quatro arquivos reconhecidos como repetidos; 370 registros e quatro acoes preservados.
+APROVADO: hashes do CSV e das seis saidas de acao inalterados.

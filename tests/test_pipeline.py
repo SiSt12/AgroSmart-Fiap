@@ -285,7 +285,7 @@ def test_app_streamlit_abre_sem_excecao():
     assert not app.exception
     titulos = [t.value for t in app.title]
     assert any("AgroSmart" in titulo for titulo in titulos)
-    assert len(app.tabs) == 3
+    assert len(app.tabs) == 5
     # O uploader da aba de classificacao precisa existir para o fluxo funcionar.
     assert len(app.get("file_uploader")) >= 1
 

@@ -5,3 +5,5 @@ joblib==1.4.2
 pandas==2.2.3
 streamlit==1.39.0
 pytest==8.3.3
+altair==5.4.1
+pyarrow==19.0.1
